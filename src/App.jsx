@@ -1,35 +1,57 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import "./styles/App.css";
+import { useState } from "react";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
+import CVPreview from "./components/CVPreview";
+import PersonalInfoForm from "./components/forms/PersonalInfoForm";
+import EducationForm from "./components/forms/EducationForm";
+import ExperienceForm from "./components/forms/ExperienceForm";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [data, setData] = useState({
+    name: "John",
+    lastName: "Doe",
+    email: "john@example.com",
+    phone: "123-456-7890",
+    degree: "Bachelor's in Computer Science",
+    university: "University of XYZ",
+    location: "City, State",
+    startDate: "2020-09-01",
+    endDate: "2024-05-30",
+    jobTitle: "Software Engineer",
+    company: "TechCorp",
+    jobLocation: "TechCity",
+    jobStartDate: "2022-01-15",
+    jobEndDate: "2023-06-30",
+    jobDescription: "Developed web applications using React",
+  });
+  const [backgroundColor, setBackgroundColor] = useState("#f5f5f5");
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setData((prevData) => ({ ...prevData, [name]: value }));
+  };
+
+  const handleColorChange = (e) => {
+    const newColor = e.target.value;
+    setBackgroundColor(newColor);
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className="App">
+      <Header />
+      <div className="sidebar">
+        <PersonalInfoForm
+          handleInputChange={handleInputChange}
+          handleColorChange={handleColorChange}
+        />
+        <EducationForm handleInputChange={handleInputChange} />
+        <ExperienceForm handleInputChange={handleInputChange} />
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+      <CVPreview data={data} backgroundColor={backgroundColor} />
+      <Footer />
+    </div>
+  );
 }
 
-export default App
+export default App;
